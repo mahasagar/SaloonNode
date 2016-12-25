@@ -13,9 +13,10 @@ function createUserAPI(req,res){
     getUserByUsername(checkUsername,function(userExistsRes){
         if(userExistsRes.result == false) {
             createUser.save(function (err, result) {
-                res.json({result : result});
+                res.json({result : result,status : true});
             });
         }else{
+            userExistsRes.status =false;
             res.json(userExistsRes);
         }
     });

@@ -17,7 +17,7 @@ app.get('/',function(req,res){
 
 app.use("/js",express.static(__dirname+'/client/js'));
 
-app.post('/api/createUser',userAPI.createUser);
+app.post('/api/registerUser',userAPI.createUser);
 app.post('/api/getLogin',userAPI.loginToApp);
 app.get('/api/listOfUser',userAPI.listOfUser);
 
