@@ -22,7 +22,7 @@ app.post('/api/getLogin',userAPI.loginToApp);
 app.get('/api/listOfUser',userAPI.listOfUser);
 
 app.post('/api/addBusiness',SaloonAPI.addSaloonBusiness);
-app.get('/api/getBusiness',SaloonAPI.getSaloonBusiness);
+app.post('/api/getBusiness',SaloonAPI.getSaloonBusiness);
 
 app.post('/api/placeOrder',orderAPI.placeOrder);
 app.get('/api/getAllOrders',orderAPI.getAllOrders);
