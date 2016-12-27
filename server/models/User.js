@@ -13,7 +13,8 @@ module.exports = mongoose.model('User',{
     address :{
         fullAddress : {type: String},
         lat : {type: String},
-        long : {type: String}
+        long : {type: String},
+        pincode :  {type: String}
     },
     userType : {type: [String]},
     status : {type: String},

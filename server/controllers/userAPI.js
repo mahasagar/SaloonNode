@@ -13,9 +13,10 @@ function createUserAPI(req,res){
     getUserByUsername(checkUsername,function(userExistsRes){
         if(userExistsRes.result == false) {
             createUser.save(function (err, result) {
-                res.json({result : result});
+                res.json({result : result,status : true});
             });
         }else{
+            userExistsRes.status =false;
             res.json(userExistsRes);
         }
     });
@@ -28,9 +29,9 @@ function getUserByUsername(req,res){
     };
     User.findOne(loginDetail,function(req,results){
         if(results !== null) {
-            res({result :Messages.usernameExists});
+            res({result :Messages.usernameExists,status : true});
         }else{
-            res({result :false});
+            res({result :false,status : false});
         }
     })
 }
@@ -45,16 +46,16 @@ function loginToApp(req,res){
     User.findOne(loginDetail,function(req,results){
         console.log("results "+JSON.stringify(results))
         if(results !== null) {
-            res.json({result :results});
+            res.json({result :results,status : true});
         }else{
-            res.json({result : Messages.userOrPasswordWrong});
+            res.json({result : Messages.userOrPasswordWrong,status : false});
         }
     })
 }
 
 function listOfUserAPI(req,res){
     User.find({},function(req,results){
-        res.json({result : results});
+        res.json({result : results,status : true});
     })
 };
 

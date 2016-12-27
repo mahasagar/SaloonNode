@@ -35,12 +35,12 @@ app.get('/', function (req, res) {
 
 app.use("/js", express.static(__dirname + '/client/js'));
 
-app.post('/api/createUser', userAPI.createUser);
-app.post('/api/getLogin', userAPI.loginToApp);
-app.get('/api/listOfUser', userAPI.listOfUser);
+app.post('/api/registerUser',userAPI.createUser);
+app.post('/api/getLogin',userAPI.loginToApp);
+app.get('/api/listOfUser',userAPI.listOfUser);
 
-app.post('/api/addBusiness', SaloonAPI.addSaloonBusiness);
-app.get('/api/getBusiness', SaloonAPI.getSaloonBusiness);
+app.post('/api/addBusiness',SaloonAPI.addSaloonBusiness);
+app.post('/api/getBusiness',SaloonAPI.getSaloonBusiness);
 
 app.post('/api/placeOrder', orderAPI.placeOrder);
 app.get('/api/getAllOrders', orderAPI.getAllOrders);
@@ -135,7 +135,6 @@ function sendRequest(uri, number, callback) {
         }
     );
 }
-
 
 function sendAppLink(appLinkMessage, cb) {
     //console.log('appLinkMessage---------================',appLinkMessage);
