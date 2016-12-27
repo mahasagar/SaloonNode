@@ -1,0 +1,27 @@
+{
+  "db": {
+    "mongo": {
+      "host": "localhost",
+      "port": 27017,
+      "username": null,
+      "password": null,
+      "db": "saloonapp"
+    }
+  },
+  "mailer": {
+    "service": "Gmail",
+    "auth": {
+      "user": "dev.medibox@gmail.com",
+      "pass": "medibox123"
+    }
+  },
+  "springedge":{
+    "key":"636n033l3549o14yp1ljdti3t81rk11v5",
+    "baseURL": "https://instantalerts.co/api/web/send/?"
+  },
+  "medibox": {
+    "api": {
+      "baseURL": "http://localhost:3000/api"
+    }
+  }
+}
