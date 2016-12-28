@@ -21,6 +21,15 @@ function getSaloonBusiness(req,res){
         res.json(results);
     })
 };
+function getBusinessById(req,res){
+    var query = {
+        _id : req.body._id
+    };
+    Saloon.find(query,function(req,results){
+        res.json({result : results[0]} );
+    })
+};
 
 module.exports.addSaloonBusiness = addSaloonBusiness;
 module.exports.getSaloonBusiness = getSaloonBusiness;
+module.exports.getBusinessById = getBusinessById;

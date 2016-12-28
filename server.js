@@ -41,6 +41,7 @@ app.get('/api/listOfUser',userAPI.listOfUser);
 
 app.post('/api/addBusiness',SaloonAPI.addSaloonBusiness);
 app.post('/api/getBusiness',SaloonAPI.getSaloonBusiness);
+app.post('/api/getBusinessById',SaloonAPI.getBusinessById);
 
 app.post('/api/placeOrder', orderAPI.placeOrder);
 app.get('/api/getAllOrders', orderAPI.getAllOrders);
