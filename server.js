@@ -43,6 +43,10 @@ app.post('/api/addBusiness',SaloonAPI.addSaloonBusiness);
 app.post('/api/getBusiness',SaloonAPI.getSaloonBusiness);
 app.post('/api/getBusinessById',SaloonAPI.getBusinessById);
 
+
+app.post('/api/getSaloons',SaloonAPI.getAllSaloons);
+app.post('/api/getServicesBySaloonId',SaloonAPI.getServicesBySaloonId);
+
 app.post('/api/placeOrder', orderAPI.placeOrder);
 app.get('/api/getAllOrders', orderAPI.getAllOrders);
 

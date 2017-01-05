@@ -21,6 +21,21 @@ function getSaloonBusiness(req,res){
         res.json(results);
     })
 };
+
+
+function getAllSaloons(req,res){
+    var query = {};
+    if(req.body.name){
+        query.name = new RegExp(req.body.name, 'i')
+    }
+    var select = { name: 1, address: 1 };
+
+    Saloon.find(query,select ,function(req,results){
+        res.json(results);
+    })
+};
+
+
 function getBusinessById(req,res){
     var query = {
         _id : req.body._id
@@ -30,6 +45,19 @@ function getBusinessById(req,res){
     })
 };
 
+function getServicesBySaloonId(req,res){
+    var query = {
+        _id : req.body._id
+    };
+    var select = { services: 1, name: 1 };
+
+    Saloon.find(query,select,function(req,results){
+        res.json({result : results[0]} );
+    })
+};
+
 module.exports.addSaloonBusiness = addSaloonBusiness;
 module.exports.getSaloonBusiness = getSaloonBusiness;
 module.exports.getBusinessById = getBusinessById;
+module.exports.getAllSaloons = getAllSaloons;
+module.exports.getServicesBySaloonId = getServicesBySaloonId;
