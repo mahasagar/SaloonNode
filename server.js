@@ -23,9 +23,16 @@ app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse applicati
 app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-form-urlencoded
 
 app.use(bodyParser.json());
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,x-username,x-token');
+    next();
+};
+app.use(allowCrossDomain);
 
 //connect mongo
-mongoose.connect('mongodb://localhost:27017/saloonapp');
+mongoose.connect('mongodb://'+config.db.mongo.username+':'+config.db.mongo.password+'@localhost:27017/saloonapp');
 
 app.use(bodyParser());
 
@@ -38,6 +45,7 @@ app.use("/js", express.static(__dirname + '/client/js'));
 app.post('/api/registerUser',userAPI.createUser);
 app.post('/api/getLogin',userAPI.loginToApp);
 app.get('/api/listOfUser',userAPI.listOfUser);
+app.post('/api/addToCart',userAPI.addToCart);
 
 app.post('/api/addBusiness',SaloonAPI.addSaloonBusiness);
 app.post('/api/getBusiness',SaloonAPI.getSaloonBusiness);
