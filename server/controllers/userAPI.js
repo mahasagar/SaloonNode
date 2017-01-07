@@ -3,6 +3,7 @@
  */
 var User = require('../models/User');
 var Messages = require('../Utilities/messages');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 
 function createUserAPI(req,res){
@@ -53,6 +54,27 @@ function loginToApp(req,res){
     })
 }
 
+
+function addToCart(req,res){
+    var serviceData= req.body;
+    console.log("loginDetail :"+JSON.stringify(serviceData))
+    User.findOne({_id : new ObjectId(serviceData.userId)},function(req,results){
+        console.log("results "+JSON.stringify(results))
+        if(results && results.cart) {
+            results.cart.push(serviceData);
+        }else{
+            results.cart = [];
+            results.cart.push(serviceData);
+        }
+        var totalCount = results.cart.length;
+        if(results !== null) {
+            res.json({result : totalCount,status : true});
+        }else{
+            res.json({result : "Cant add to Cart",status : false});
+        }
+    })
+}
+
 function listOfUserAPI(req,res){
     User.find({},function(req,results){
         res.json({result : results,status : true});
@@ -62,3 +84,4 @@ function listOfUserAPI(req,res){
 module.exports.createUser = createUserAPI;
 module.exports.listOfUser = listOfUserAPI;
 module.exports.loginToApp = loginToApp;
+module.exports.addToCart = addToCart;
