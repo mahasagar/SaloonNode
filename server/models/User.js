@@ -22,6 +22,15 @@ module.exports = mongoose.model('User',{
         mobile : {type: String},
         landLine :  {type: String}
     },
+    cart : [
+        {
+            segmentName: {type: String,require: true},
+            subSegmentName: {type: String,require: true},
+            unitPrice: {type: Number},
+            saloonId : {type: String,require: true},
+            saloonName : {type: String,require: true}
+        }
+    ],
     GCMToken : {type: String},
     updatedAt : {type: Date},
     createdDate: {type: Date, require: true, default: Date.now}
