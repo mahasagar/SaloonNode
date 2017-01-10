@@ -1,69 +1,12 @@
-var express = require("express");
-var app = express();
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var userAPI = require("./server/controllers/userAPI.js");
-var SaloonAPI = require("./server/controllers/saloonAPI.js");
-var orderAPI = require("./server/controllers/orderAPI.js");
-var smsAPI = require("./server/controllers/smsAPI.js");
-var config = require('./config/dev');
-var baseURL = config.springedge.baseURL;
-var Message = require('./server/models/Message');
+/**
+ * Created by mahasagar on 10/1/17.
+ */
+var User = require('../models/User');
 var request = require('request');
-var nodemailer = require("nodemailer");
-var mail_details = {
-    service: config.mailer.service,
-    auth: {
-        "user": config.mailer.auth.user,
-        "pass": config.mailer.auth.pass
-    }
-}
-var smtpTransport = nodemailer.createTransport(mail_details);
-app.use(bodyParser.json()); // parse application/json
-app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse application/vnd.api+json as json
-app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-form-urlencoded
-
-app.use(bodyParser.json());
-var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type,x-username,x-token');
-    next();
-};
-app.use(allowCrossDomain);
-
-//connect mongo
-mongoose.connect('mongodb://'+config.db.mongo.username+':'+config.db.mongo.password+'@localhost:27017/saloonapp');
-
-app.use(bodyParser());
-
-app.get('/', function (req, res) {
-    res.sendfile(__dirname + '/client/views/index.html');
-})
-
-app.use("/js", express.static(__dirname + '/client/js'));
-
-app.post('/api/registerUser',userAPI.createUser);
-app.post('/api/getLogin',userAPI.loginToApp);
-app.get('/api/listOfUser',userAPI.listOfUser);
-app.post('/api/addToCart',userAPI.addToCart);
-
-app.post('/api/addBusiness',SaloonAPI.addSaloonBusiness);
-app.post('/api/getBusiness',SaloonAPI.getSaloonBusiness);
-app.post('/api/getBusinessById',SaloonAPI.getBusinessById);
 
 
-app.post('/api/getSaloons',SaloonAPI.getAllSaloons);
-app.post('/api/getServicesBySaloonId',SaloonAPI.getServicesBySaloonId);
 
-app.post('/api/placeOrder', orderAPI.placeOrder);
-app.get('/api/getAllOrders', orderAPI.getAllOrders);
-
-app.post('/sendsmstosuctomers',smsAPI.sendsmstosuctomers);
-
-/*
-app.post('/sendsmstosuctomers', function (req, res) {
-    //console.log('calling sendsmstosuctomers api ');
+function sendsmstosuctomers(req,res){
     console.log('calling sendsmstosuctomers req.body', req.body);
     var mailOptions = {
         to: req.body.email, // list of receivers
@@ -95,7 +38,7 @@ app.post('/sendsmstosuctomers', function (req, res) {
     sendAppLink(appLinkMessage, function (err) {
         //console.log('sent to ' + number );
     });
-});
+};
 
 
 function getSMSQuery() {
@@ -152,6 +95,7 @@ function sendRequest(uri, number, callback) {
     );
 }
 
+
 function sendAppLink(appLinkMessage, cb) {
     //console.log('appLinkMessage---------================',appLinkMessage);
     sendPromotionalMessage(appLinkMessage.recipientNumber, appLinkMessage.message, function (output) {// smsCallBack
@@ -164,11 +108,7 @@ function sendAppLink(appLinkMessage, cb) {
         cb(null, output);
     });
 
-}*/
+}
 
-module.exports = app;
 
-app.listen(5000, function () {
-    console.log("Welcome to SaloonApp.. server started at 5000")
-})
-
+module.exports.sendsmstosuctomers = sendsmstosuctomers;
