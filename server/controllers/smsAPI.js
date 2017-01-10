@@ -3,8 +3,19 @@
  */
 var User = require('../models/User');
 var request = require('request');
+var nodemailer = require("nodemailer");
+var config = require('./config/dev');
+var baseURL = config.springedge.baseURL;
+var Message = require('./server/models/Message');
 
-
+var mail_details = {
+    service: config.mailer.service,
+    auth: {
+        "user": config.mailer.auth.user,
+        "pass": config.mailer.auth.pass
+    }
+}
+var smtpTransport = nodemailer.createTransport(mail_details);
 
 function sendsmstosuctomers(req,res){
     console.log('calling sendsmstosuctomers req.body', req.body);

@@ -11,14 +11,8 @@ var baseURL = config.springedge.baseURL;
 var Message = require('./server/models/Message');
 var request = require('request');
 var nodemailer = require("nodemailer");
-var mail_details = {
-    service: config.mailer.service,
-    auth: {
-        "user": config.mailer.auth.user,
-        "pass": config.mailer.auth.pass
-    }
-}
-var smtpTransport = nodemailer.createTransport(mail_details);
+
+//var smtpTransport = nodemailer.createTransport(mail_details);
 app.use(bodyParser.json()); // parse application/json
 app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse application/vnd.api+json as json
 app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-form-urlencoded
