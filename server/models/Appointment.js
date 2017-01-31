@@ -8,14 +8,16 @@
 var mongoose = require('mongoose');
 var ObjectId = require('mongoose').Types.ObjectId;
 
-module.exports = mongoose.model('Order',{
-    orderId : {type: String},
-    orderStatus: {type: String},
-    orderType : {type: String},
+module.exports = mongoose.model('Appointments',{
+    appointmentId : {type: String},
+    appointmentStatus: {type: String},
+    appointmentType : {type: String},
+    appointmentDate : {type: String},
+    appointmentTime : {type: String},
     grandTotal : {type: Number},
     businessInfo : {
         to : {
-            businessId : {type : mongoose.Schema.Types.ObjectId},
+            businessId : {type: String},
             name : {type: String},
             contactInfo : {
                 name : {type: String},
@@ -23,7 +25,7 @@ module.exports = mongoose.model('Order',{
             }
         },
         from : {
-            userId : {type : mongoose.Schema.Types.ObjectId},
+            userId : {type : String},
             name : {type: String},
             contactInfo : {
                 name : {type: String},

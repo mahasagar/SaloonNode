@@ -12,7 +12,11 @@ module.exports = mongoose.model('Saloon',{
         lat : {type: String},
         long : {type: String}
     },
-    saloonType : {type: [String]},
+    contact:{
+        primary :{type: Number},
+        secondary:{type: Number}
+    },
+    saloonType : {type: String},
     services : [
         {
             segmentName: {type: String,require: true},
@@ -26,9 +30,11 @@ module.exports = mongoose.model('Saloon',{
         open : {type: String},
         close :{type: String}
     },
+    workingDays :{type: [String]},
     paymentMode : {type: [String]},
     userId : {type: String},
     userName : {type: String},
+    saloonPriceType : {type: String},
     saloonImg : [ {type: String}],
     saloonFacilities : [ {type: String}],
     reviews : [{
