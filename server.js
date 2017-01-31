@@ -4,15 +4,11 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var userAPI = require("./server/controllers/userAPI.js");
 var SaloonAPI = require("./server/controllers/saloonAPI.js");
-var orderAPI = require("./server/controllers/orderAPI.js");
+var appointmentAPI = require("./server/controllers/appointmentAPI.js");
 var smsAPI = require("./server/controllers/smsAPI.js");
 var config = require('./config/dev');
-var baseURL = config.springedge.baseURL;
 var Message = require('./server/models/Message');
 var request = require('request');
-var nodemailer = require("nodemailer");
-
-//var smtpTransport = nodemailer.createTransport(mail_details);
 app.use(bodyParser.json()); // parse application/json
 app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse application/vnd.api+json as json
 app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-form-urlencoded
@@ -27,7 +23,7 @@ var allowCrossDomain = function(req, res, next) {
 app.use(allowCrossDomain);
 
 //connect mongo
-mongoose.connect('mongodb://'+config.db.mongo.username+':'+config.db.mongo.password+'@localhost:27017/saloonapp');
+mongoose.connect('mongodb://localhost:27017/saloonapp');
 
 app.use(bodyParser());
 
@@ -50,8 +46,9 @@ app.post('/api/getBusinessById',SaloonAPI.getBusinessById);
 app.post('/api/getSaloons',SaloonAPI.getAllSaloons);
 app.post('/api/getServicesBySaloonId',SaloonAPI.getServicesBySaloonId);
 
-app.post('/api/placeOrder', orderAPI.placeOrder);
-app.get('/api/getAllOrders', orderAPI.getAllOrders);
+app.post('/api/bookAppointment', appointmentAPI.bookAppointment);
+app.post('/api/getBookingList', appointmentAPI.getBookingList);
+app.post('/api/updateBooking', appointmentAPI.updateBooking);
 
 app.post('/sendsmstosuctomers',smsAPI.sendsmstosuctomers);
 

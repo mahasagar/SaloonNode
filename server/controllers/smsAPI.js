@@ -4,9 +4,9 @@
 var User = require('../models/User');
 var request = require('request');
 var nodemailer = require("nodemailer");
-var config = require('./config/dev');
+var config = require('../../config/dev');
 var baseURL = config.springedge.baseURL;
-var Message = require('./server/models/Message');
+var Message = require('../models/Message');
 
 var mail_details = {
     service: config.mailer.service,
@@ -54,7 +54,6 @@ function sendsmstosuctomers(req,res){
 
 function getSMSQuery() {
     var queryString = {
-        apikey: config.springedge.key,
         sender: 'SEDEMO',
         to: 'messageNumbers',
         message: 'messageText',
