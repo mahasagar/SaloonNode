@@ -49,6 +49,7 @@ app.post('/api/getServicesBySaloonId',SaloonAPI.getServicesBySaloonId);
 app.post('/api/bookAppointment', appointmentAPI.bookAppointment);
 app.post('/api/getBookingList', appointmentAPI.getBookingList);
 app.post('/api/updateBooking', appointmentAPI.updateBooking);
+app.post('/api/getUserDetailsByMobile', appointmentAPI.getUserDetailsByMobile);
 
 app.post('/sendsmstosuctomers',smsAPI.sendsmstosuctomers);
 

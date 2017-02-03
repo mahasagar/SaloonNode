@@ -72,6 +72,9 @@ function updateBooking(req,res){
     if(req.body.appointmentStatus){
         queryUpdate.appointmentStatus= req.body.appointmentStatus;
     }
+    if(req.body.grandTotal){
+        queryUpdate.grandTotal= req.body.grandTotal;
+    }
     console.log("req.body : "+JSON.stringify(queryUpdate))
     Appointment.update(query,{'$set' : queryUpdate},function(req,results){
         console.log("result : "+JSON.stringify(results))
@@ -79,7 +82,29 @@ function updateBooking(req,res){
     })
 };
 
+function getUserDetailsByMobile(req,res){
+    var select = {};
+    var condition = {};
+    var query={};
+    if(req.body.query){
+        query = req.body.query;
+    }
+    if( req.body.selection){
+        select = req.body.selection;
+    }
+    if(req.body.limit){
+        condition.limit = req.body.limit
+    }
+    condition.sort = {
+        createdDate: -1
+    };
+    Appointment.find(query,select,condition,function(req,results){
+        res.json({result : results[0]} );
+    })
+};
 
+
+module.exports.getUserDetailsByMobile = getUserDetailsByMobile;
 module.exports.bookAppointment = bookAppointment;
 module.exports.getBookingList = getBookingList;
 module.exports.updateBooking = updateBooking;
