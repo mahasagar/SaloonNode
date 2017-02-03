@@ -103,8 +103,52 @@ function getUserDetailsByMobile(req,res){
     })
 };
 
+function customerOrderCountAndAmount(req,cb) {
+    console.log('dody',req.body);
+    var query = [];
+    if(req.body.businessId){
+        query.push(
+            {
+                $match: {
+                    'businessInfo.to.businessId': req.body.businessId
+                }
+            }
+        );
+    }
+    if(req.body.year){
+        query.push(
+            {
+                $match: {
+                    'appointmentDate': {
+                        $gte: new Date(req.body.year+'-01-01T00:00:00.000+0530'), $lte: new Date(req.body.year+'-12-31T23:59:59.000+0530')
+                    }
+                }
+            }
+        );
+    }
+    query.push(
+        {
+            $group: {
+                _id: null,
+                grandTotal: { $sum: '$grandTotal' },
+                count:{ $sum:1 }
+            }
+        }
+    );
+    console.log('query' +JSON.stringify(query));
+    Appointment.aggregate( query , function (err, appintments) {
+        console.log('appintments' +JSON.stringify(appintments))
+        /*if(appintments && appintments.length > 0){
+            //var appintmentsData = appintments[0];
+            cb(null, {/!*orderCount : appintmentsData.count, grandTotal : appintmentsData.grandTotal*!/});
+        }*/
+    });
+
+}
+
 
 module.exports.getUserDetailsByMobile = getUserDetailsByMobile;
 module.exports.bookAppointment = bookAppointment;
 module.exports.getBookingList = getBookingList;
 module.exports.updateBooking = updateBooking;
+module.exports.customerOrderCountAndAmount = customerOrderCountAndAmount;

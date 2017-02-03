@@ -12,7 +12,7 @@ module.exports = mongoose.model('Appointments',{
     appointmentId : {type: String},
     appointmentStatus: {type: String},
     appointmentType : {type: String},
-    appointmentDate : {type: String},
+    appointmentDate : { type : Date},
     appointmentTime : {type: String},
     grandTotal : {type: Number},
     businessInfo : {
