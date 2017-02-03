@@ -56,7 +56,7 @@ function getBookingList(req,res){
         res.json(results);
     });*/
 
-    Appointment.find(query,function(req,results){
+    Appointment.find(query,{},{sort : {appointmentDate: -1}},function(req,results){
         console.log("result : "+JSON.stringify(results))
         res.json(results);
     })
@@ -142,9 +142,30 @@ function customerOrderCountAndAmount(req,cb) {
             //var appintmentsData = appintments[0];
             cb(null, {/!*orderCount : appintmentsData.count, grandTotal : appintmentsData.grandTotal*!/});
         }*/
-    });
-
+    })
 }
+
+function getSaloonAppointmentAmount(req,res){
+    var select = {};
+    var condition = {};
+    var query={};
+    if(req.body.query){
+        query = req.body.query;
+    }
+    if( req.body.selection){
+        select = req.body.selection;
+    }
+    if(req.body.limit){
+        condition.limit = req.body.limit
+    }
+    condition.sort = {
+        createdDate: -1
+    };
+    Appointment.find(query,select,condition,function(req,results){
+        res.json({result : results[0]} );
+    })
+};
+
 
 
 module.exports.getUserDetailsByMobile = getUserDetailsByMobile;
@@ -152,3 +173,5 @@ module.exports.bookAppointment = bookAppointment;
 module.exports.getBookingList = getBookingList;
 module.exports.updateBooking = updateBooking;
 module.exports.customerOrderCountAndAmount = customerOrderCountAndAmount;
+module.exports.getSaloonAppointmentAmount = getSaloonAppointmentAmount;
+
