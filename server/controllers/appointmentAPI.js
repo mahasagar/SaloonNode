@@ -2,6 +2,7 @@
  * Created by mahasagar on 20/12/16.
  */
 var Appointment = require('../models/Appointment');
+var _ = require('lodash');
 
  function generateOrderId() {
       var length = 17;
@@ -103,47 +104,6 @@ function getUserDetailsByMobile(req,res){
     })
 };
 
-function customerOrderCountAndAmount(req,cb) {
-    console.log('dody',req.body);
-    var query = [];
-    if(req.body.businessId){
-        query.push(
-            {
-                $match: {
-                    'businessInfo.to.businessId': req.body.businessId
-                }
-            }
-        );
-    }
-    if(req.body.year){
-        query.push(
-            {
-                $match: {
-                    'appointmentDate': {
-                        $gte: new Date(req.body.year+'-01-01T00:00:00.000+0530'), $lte: new Date(req.body.year+'-12-31T23:59:59.000+0530')
-                    }
-                }
-            }
-        );
-    }
-    query.push(
-        {
-            $group: {
-                _id: null,
-                grandTotal: { $sum: '$grandTotal' },
-                count:{ $sum:1 }
-            }
-        }
-    );
-    console.log('query' +JSON.stringify(query));
-    Appointment.aggregate( query , function (err, appintments) {
-        console.log('appintments' +JSON.stringify(appintments))
-        /*if(appintments && appintments.length > 0){
-            //var appintmentsData = appintments[0];
-            cb(null, {/!*orderCount : appintmentsData.count, grandTotal : appintmentsData.grandTotal*!/});
-        }*/
-    })
-}
 
 function getSaloonAppointmentAmount(req,res){
     var select = {};
@@ -166,12 +126,127 @@ function getSaloonAppointmentAmount(req,res){
     })
 };
 
+function customerOrdersReport(req, res){
+    var query = [];
+    query.push(
+        {
+
+            $match: {
+                'businessInfo.to.businessId': req.body.businessId,
+                'appointmentDate': {
+                    $gte: new Date(req.body.year+'-01-01T00:00:00.000+0530'),
+                    $lte: new Date(req.body.year+'-12-31T23:59:59.000+0530')
+                }
+            }
+        }
+    );
+    query.push(
+        {
+            '$group' : {
+                '_id' : {
+                    'month' : { '$month' : '$appointmentDate'}
+                },
+                'count': { '$sum': 1 },
+                'grandTotal': { '$sum': '$grandTotal' }
+
+            }
+        }
+    );
+    // console.log(query);
+    Appointment.aggregate( query, function(err, orderData){
+        console.log('orderData' +JSON.stringify(orderData));
+        if( orderData ) {
+            var countsData = {};
+            var grandTotalData = {};
+            for (var i = 0; i < orderData.length; i++) {
+                if (!countsData[orderData[i]._id.salonName]) {
+                    countsData[orderData[i]._id.salonName] = {
+                        name: orderData[i]._id.salonName,
+                        type: 'column',
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    };
+                }
+                countsData[orderData[i]._id.salonName].data[orderData[i]._id.month - 1] = orderData[i].count;
+                if (!grandTotalData[orderData[i]._id.salonName]) {
+                    grandTotalData[orderData[i]._id.salonName] = {
+                        name: orderData[i]._id.salonName,
+                        type: 'column',
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    };
+                }
+                grandTotalData[orderData[i]._id.salonName].data[orderData[i]._id.month - 1] = Math.round( orderData[i].grandTotal * 100) / 100;
+            }
+            //console.log('--------------\n\n\n', countsData,'\n\n\n--------------', grandTotalData, '\n\n\n--------------');
+            var retObj = {'orderCount': _.values(countsData), 'orderGrandTotalAmount': _.values(grandTotalData)};
+            res.json(retObj);
+        }else{
+            res.json([]);
+        }
+    } );
+}
+
+function customerOrdersReporttest(req, res){
+    var query = [];
+    query.push(
+        {
+
+            $match: {
+                'createdDate': {
+                    $gte: new Date(req.body.year+'-01-01T00:00:00.000+0530'),
+                    $lte: new Date(req.body.year+'-12-31T23:59:59.000+0530')
+                }
+            }
+        }
+    );
+    query.push(
+        {
+            '$group' : {
+                '_id' : {
+                    'month' : { '$month' : '$createdDate'}
+                },
+                'count': { '$sum': 1 }
+
+            }
+        }
+    );
+    query.push({ $sort : { _id: 1 } });
+    console.log('query',query);
+    Appointment.aggregate( query, function(err, orderData){
+        console.log('orderData==================' +JSON.stringify(orderData));
+        if(orderData){
+            var monthCountData = {
+                1 : 0,
+                2 : 0,
+                3 : 0,
+                4 : 0,
+                5 : 0,
+                6 : 0,
+                7 : 0,
+                8 : 0,
+                9 : 0,
+                10 : 0,
+                11 : 0,
+                12 : 0
+            };
+            for(var i = 0 ; i < orderData.length ; i++){
+                monthCountData[orderData[i]._id.month] = orderData[i].count;
+            }
+            res.json({userCount : _.values(monthCountData)});
+        }else{
+            res.json([]);
+        }
+
+    } );
+}
+
 
 
 module.exports.getUserDetailsByMobile = getUserDetailsByMobile;
 module.exports.bookAppointment = bookAppointment;
 module.exports.getBookingList = getBookingList;
 module.exports.updateBooking = updateBooking;
-module.exports.customerOrderCountAndAmount = customerOrderCountAndAmount;
+module.exports.customerOrdersReporttest = customerOrdersReporttest;
 module.exports.getSaloonAppointmentAmount = getSaloonAppointmentAmount;
+module.exports.customerOrdersReport = customerOrdersReport;
+
 

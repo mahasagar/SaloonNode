@@ -50,7 +50,9 @@ app.post('/api/bookAppointment', appointmentAPI.bookAppointment);
 app.post('/api/getBookingList', appointmentAPI.getBookingList);
 app.post('/api/updateBooking', appointmentAPI.updateBooking);
 app.post('/api/getUserDetailsByMobile', appointmentAPI.getUserDetailsByMobile);
-app.post('/api/customerOrderCountAndAmount',appointmentAPI.customerOrderCountAndAmount);
+app.post('/api/customerOrdersReporttest',appointmentAPI.customerOrdersReporttest);
+app.post('/api/customerOrdersReport',appointmentAPI.customerOrdersReport);
+
 
 app.post('/sendsmstosuctomers',smsAPI.sendsmstosuctomers);
 
