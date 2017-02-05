@@ -54,6 +54,7 @@ function sendsmstosuctomers(req,res){
 
 function getSMSQuery() {
     var queryString = {
+        apikey: config.springedge.key,
         sender: 'SEDEMO',
         to: 'messageNumbers',
         message: 'messageText',
@@ -77,7 +78,7 @@ function sendPromotionalMessage(number, message, callback) {
     message = encodeURIComponent(message);
     queryParams = queryParams.replace('messageText', message);
     queryParams = queryParams.replace('messageNumbers', number);
-    //console.log('sendPromotionalMessage queryParams',queryParams);
+    console.log('sendPromotionalMessage queryParams',queryParams);
 
     sendRequest(baseURL + queryParams, number, callback);
 }

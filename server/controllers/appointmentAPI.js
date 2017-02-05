@@ -239,6 +239,49 @@ function customerOrdersReporttest(req, res){
     } );
 }
 
+function customerChurnOrderReport(req,res) {
+//console.log('req.body============',req.body);
+    var toDate = new Date();
+    toDate.setDate(toDate.getDate() + -parseInt(req.body.gracePeriodDays));
+    //console.log('toDate========',toDate)
+
+    var newQuery = {
+        'appointmentDate' :
+        {
+            $gte: toDate,
+            $lte: new Date()
+        },
+        'appointmentStatus' : { $in : ['NEW','Finished']},
+        'businessInfo.to.businessId':req.body.businessId
+    };
+    //console.log('newQuery:',JSON.stringify(newQuery));
+    var newOrdersQuery = Appointment.distinct('businessInfo.from.userId',newQuery);
+    newOrdersQuery.exec(function (err, newCustIds) {
+        if(err) throw err;
+        if (newCustIds) {
+            console.log('newCustIds' +JSON.stringify(newCustIds));
+            res.json(newCustIds.length);
+        }
+    });
+}
+
+function uniqueappointments(req,res) {
+//console.log('req.body============',req.body);
+    var newQuery = {
+        'businessInfo.to.businessId' :req.body.businessId
+    };
+    //console.log('newQuery============',newQuery);
+    Appointment.distinct('businessInfo.from.userId', newQuery, function(err, orderData){
+       // console.log('orderData==================' +JSON.stringify(orderData));
+        if(orderData){
+            console.log('newCustIds' +JSON.stringify(orderData.length));
+            res.json(orderData.length);
+        }else{
+            res.json([]);
+        }
+
+    } );
+}
 
 
 module.exports.getUserDetailsByMobile = getUserDetailsByMobile;
@@ -248,5 +291,9 @@ module.exports.updateBooking = updateBooking;
 module.exports.customerOrdersReporttest = customerOrdersReporttest;
 module.exports.getSaloonAppointmentAmount = getSaloonAppointmentAmount;
 module.exports.customerOrdersReport = customerOrdersReport;
+module.exports.customerChurnOrderReport = customerChurnOrderReport;
+module.exports.uniqueappointments = uniqueappointments;
+
+
 
 
