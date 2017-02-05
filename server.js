@@ -45,6 +45,9 @@ app.post('/api/getBusinessById',SaloonAPI.getBusinessById);
 
 app.post('/api/getSaloons',SaloonAPI.getAllSaloons);
 app.post('/api/getServicesBySaloonId',SaloonAPI.getServicesBySaloonId);
+app.post('/api/deleteSaloon',SaloonAPI.deleteSaloon);
+app.post('/api/updateSaloon',SaloonAPI.updateSaloon);
+
 
 app.post('/api/bookAppointment', appointmentAPI.bookAppointment);
 app.post('/api/getBookingList', appointmentAPI.getBookingList);

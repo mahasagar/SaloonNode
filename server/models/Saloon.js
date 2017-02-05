@@ -8,7 +8,7 @@ module.exports = mongoose.model('Saloon',{
     name : {type: String},
     address :{
         fullAddress : {type: String},
-        pinCode :{type: Number},
+        pincode :{type: Number},
         lat : {type: String},
         long : {type: String}
     },
@@ -17,6 +17,8 @@ module.exports = mongoose.model('Saloon',{
         secondary:{type: Number}
     },
     saloonType : {type: String},
+    enableSMS : {type : Boolean},
+    wallet : {type : Number},
     services : [
         {
             segmentName: {type: String,require: true},

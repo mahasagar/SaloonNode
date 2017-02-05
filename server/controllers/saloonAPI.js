@@ -5,6 +5,7 @@
  * Created by mahasagar on 20/12/16.
  */
 var Saloon = require('../models/Saloon');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 function addSaloonBusiness(req,res){
     var newBusiness = new Saloon(req.body);
@@ -56,8 +57,36 @@ function getServicesBySaloonId(req,res){
     })
 };
 
+
+function updateSaloon(req,res){
+    var query = {
+        _id :   new ObjectId(req.body.list._id)
+    }
+    var  final = req.body.list;
+    delete final._id;
+    var update = {
+        '$set' : final
+    }
+
+    Saloon.update(query,update,function(req,results){
+        res.json({result : results} );
+    })
+};
+
+function deleteSaloon(req,res){
+    var query = {
+        _id : req.body._id
+    };
+    Saloon.remove(query,function(req,results){
+        res.json({result : results} );
+    })
+};
+
 module.exports.addSaloonBusiness = addSaloonBusiness;
 module.exports.getSaloonBusiness = getSaloonBusiness;
 module.exports.getBusinessById = getBusinessById;
 module.exports.getAllSaloons = getAllSaloons;
 module.exports.getServicesBySaloonId = getServicesBySaloonId;
+module.exports.updateSaloon = updateSaloon;
+module.exports.deleteSaloon = deleteSaloon;
+
