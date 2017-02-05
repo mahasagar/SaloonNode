@@ -255,7 +255,7 @@ function customerChurnOrderReport(req,res) {
         'businessInfo.to.businessId':req.body.businessId
     };
     //console.log('newQuery:',JSON.stringify(newQuery));
-    var newOrdersQuery = Appointment.distinct('businessInfo.from.userId',newQuery);
+    var newOrdersQuery = Appointment.distinct('businessInfo.from.contactInfo.number',newQuery);
     newOrdersQuery.exec(function (err, newCustIds) {
         if(err) throw err;
         if (newCustIds) {
@@ -271,7 +271,7 @@ function uniqueappointments(req,res) {
         'businessInfo.to.businessId' :req.body.businessId
     };
     //console.log('newQuery============',newQuery);
-    Appointment.distinct('businessInfo.from.userId', newQuery, function(err, orderData){
+    Appointment.distinct('businessInfo.from.contactInfo.number', newQuery, function(err, orderData){
        // console.log('orderData==================' +JSON.stringify(orderData));
         if(orderData){
             console.log('newCustIds' +JSON.stringify(orderData.length));
