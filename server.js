@@ -55,8 +55,8 @@ app.post('/api/updateBooking', appointmentAPI.updateBooking);
 app.post('/api/getUserDetailsByMobile', appointmentAPI.getUserDetailsByMobile);
 app.post('/api/customerOrdersReporttest',appointmentAPI.customerOrdersReporttest);
 app.post('/api/customerOrdersReport',appointmentAPI.customerOrdersReport);
-app.post('/api/customerChurnOrderReport',appointmentAPI.customerChurnOrderReport);
-app.post('/api/uniqueappointments',appointmentAPI.uniqueappointments);
+app.post('/api/customerChurnAppointmentReport',appointmentAPI.customerChurnOrderReport);
+app.post('/api/uniqueUserByBusiness',appointmentAPI.uniqueappointments);
 
 
 
