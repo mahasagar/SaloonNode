@@ -81,7 +81,25 @@ function listOfUserAPI(req,res){
     })
 };
 
+function updateProfile(req,res){
+    var query = {};
+    var updateQuery = {};
+    if(req.body.query){
+        query._id = new ObjectId(req.body._id)
+    }
+    if(req.body.updateQuery){
+        updateQuery = req.body.updateQuery;
+        User.update(query,updateQuery,function(req,results){
+            res.json({result : results,status : true});
+
+        })
+    }else{
+        res.json({result : req.body,status : false});
+    }
+};
+
 module.exports.createUser = createUserAPI;
 module.exports.listOfUser = listOfUserAPI;
 module.exports.loginToApp = loginToApp;
 module.exports.addToCart = addToCart;
+module.exports.updateProfile = updateProfile;

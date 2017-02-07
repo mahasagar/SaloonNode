@@ -37,6 +37,7 @@ app.post('/api/registerUser',userAPI.createUser);
 app.post('/api/getLogin',userAPI.loginToApp);
 app.get('/api/listOfUser',userAPI.listOfUser);
 app.post('/api/addToCart',userAPI.addToCart);
+app.post('/api/updateProfile',userAPI.updateProfile);
 
 app.post('/api/addBusiness',SaloonAPI.addSaloonBusiness);
 app.post('/api/getBusiness',SaloonAPI.getSaloonBusiness);
