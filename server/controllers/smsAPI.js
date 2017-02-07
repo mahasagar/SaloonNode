@@ -21,8 +21,13 @@ function sendsmstosuctomers(req,res){
     console.log('calling sendsmstosuctomers req.body', req.body);
     var mailOptions = {
         to: req.body.email, // list of receivers
-        subject: "testing mail", // Subject line
-        text: "welcome"
+        subject: "Booking Confirmed TnY", // Subject line
+        text: "Thank you for booking with us. your booking has been confirmed.\n\n" +
+        "Salon Name: " + req.body.SaloonName + "\n\n" +
+        ",Date: " +req.body.Date + '\n\n' +
+        ",Address: " +req.body.Address + '\n\n' +
+        "we are exited to serve you " + '\n\n' +
+        "Team TnY"
     };
     smtpTransport.sendMail(mailOptions, function (error, response) {
         if (error) {

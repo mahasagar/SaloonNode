@@ -11,12 +11,12 @@
   "mailer": {
     "service": "Gmail",
     "auth": {
-      "user": "dev.medibox@gmail.com",
-      "pass": "medibox123"
+      "user": "timelessnyou@gmail.com",
+      "pass": "Chandra4283@"
     }
   },
   "springedge":{
-    "key":"636n033l3549o14yp1ljdti3t81rk11v5",
+    "key":"207s3536a557ivulw36s59d9b8103qqwzh",
     "baseURL": "https://instantalerts.co/api/web/send/?"
   },
   "medibox": {
