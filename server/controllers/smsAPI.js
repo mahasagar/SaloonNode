@@ -60,7 +60,7 @@ function sendsmstosuctomers(req,res){
 function getSMSQuery() {
     var queryString = {
         apikey: config.springedge.key,
-        sender: 'SEDEMO',
+        sender: 'TNYGSF',
         to: 'messageNumbers',
         message: 'messageText',
         format: 'json',
@@ -120,8 +120,9 @@ function sendAppLink(appLinkMessage, cb) {
             if (!err) {
                 console.log('App link message created : ' + createdMsg);
             }
+            cb(null, createdMsg);
         });
-        cb(null, output);
+
     });
 
 }
