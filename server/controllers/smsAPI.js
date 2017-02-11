@@ -24,8 +24,8 @@ function sendsmstosuctomers(req,res){
         subject: "Booking Confirmed TnY", // Subject line
         text: "Thank you for booking with us. your booking has been confirmed.\n\n" +
         "Salon Name: " + req.body.SaloonName + "\n\n" +
-        ",Date: " +req.body.Date + '\n\n' +
-        ",Address: " +req.body.Address + '\n\n' +
+        "Date: " +req.body.Date + '\n\n' +
+        "Address: " +req.body.Address + '\n\n' +
         "we are exited to serve you " + '\n\n' +
         "Team TnY"
     };

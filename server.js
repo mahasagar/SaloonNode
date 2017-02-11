@@ -58,6 +58,8 @@ app.post('/api/customerOrdersReporttest',appointmentAPI.customerOrdersReporttest
 app.post('/api/customerOrdersReport',appointmentAPI.customerOrdersReport);
 app.post('/api/customerChurnAppointmentReport',appointmentAPI.customerChurnOrderReport);
 app.post('/api/uniqueUserByBusiness',appointmentAPI.uniqueappointments);
+app.post('/api/totalAggregatedamount',appointmentAPI.totalAggregatedamount);
+
 
 
 

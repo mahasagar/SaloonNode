@@ -284,6 +284,34 @@ function uniqueappointments(req,res) {
 }
 
 
+function totalAggregatedamount(req, res){
+    console.log('api callling')
+    var query = [];
+    query.push(
+        {
+            '$group' : {
+                '_id' : {
+                },
+                'count': { '$sum': 1 },
+                'grandTotal': { '$sum': '$grandTotal' }
+
+            }
+        }
+    );
+    query.push({ $sort : { _id: 1 } });
+   // console.log('query==========================',query);
+    Appointment.aggregate( query, function(err, orderData){
+        if(orderData){
+           // console.log('orderData' +JSON.stringify(orderData));
+            res.json({totalAggregatedamount : orderData});
+        }else{
+            res.json([]);
+        }
+
+    } );
+}
+
+
 module.exports.getUserDetailsByMobile = getUserDetailsByMobile;
 module.exports.bookAppointment = bookAppointment;
 module.exports.getBookingList = getBookingList;
@@ -293,6 +321,9 @@ module.exports.getSaloonAppointmentAmount = getSaloonAppointmentAmount;
 module.exports.customerOrdersReport = customerOrdersReport;
 module.exports.customerChurnOrderReport = customerChurnOrderReport;
 module.exports.uniqueappointments = uniqueappointments;
+module.exports.totalAggregatedamount = totalAggregatedamount;
+
+
 
 
 
