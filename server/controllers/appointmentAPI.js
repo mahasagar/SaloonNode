@@ -58,8 +58,7 @@ function getBookingList(req,res){
     });*/
 
     Appointment.find(query,{},{sort : {appointmentDate: -1}},function(req,results){
-        console.log("result : "+JSON.stringify(results))
-        res.json(results);
+         res.json(results);
     })
 };
 
@@ -284,9 +283,14 @@ function uniqueappointments(req,res) {
 }
 
 
-function totalAggregatedamount(req, res){
+function totalAggregatedAmount(req, res){
     console.log('api callling')
     var query = [];
+    var matchQuery = {'businessInfo.to.businessId': req.body.businessId};
+    query.push(
+        {
+            '$match': matchQuery
+        });
     query.push(
         {
             '$group' : {
@@ -302,8 +306,8 @@ function totalAggregatedamount(req, res){
    // console.log('query==========================',query);
     Appointment.aggregate( query, function(err, orderData){
         if(orderData){
-           // console.log('orderData' +JSON.stringify(orderData));
-            res.json({totalAggregatedamount : orderData});
+            console.log('orderData' +JSON.stringify(orderData));
+            res.json({totalAggregatedAmount : orderData[0]});
         }else{
             res.json([]);
         }
@@ -321,7 +325,7 @@ module.exports.getSaloonAppointmentAmount = getSaloonAppointmentAmount;
 module.exports.customerOrdersReport = customerOrdersReport;
 module.exports.customerChurnOrderReport = customerChurnOrderReport;
 module.exports.uniqueappointments = uniqueappointments;
-module.exports.totalAggregatedamount = totalAggregatedamount;
+module.exports.totalAggregatedAmount = totalAggregatedAmount;
 
 
 
