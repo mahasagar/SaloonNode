@@ -42,10 +42,7 @@ function loginToApp(req,res){
         'auth.username' :req.body.username,
         'auth.password' : req.body.password
     };
-
-    console.log("loginDetail :"+JSON.stringify(loginDetail))
     User.findOne(loginDetail,function(req,results){
-        console.log("results "+JSON.stringify(results))
         if(results !== null) {
             res.json({result :results,status : true});
         }else{
@@ -57,9 +54,7 @@ function loginToApp(req,res){
 
 function addToCart(req,res){
     var serviceData= req.body;
-    console.log("loginDetail :"+JSON.stringify(serviceData))
-    User.findOne({_id : new ObjectId(serviceData.userId)},function(req,results){
-        console.log("results "+JSON.stringify(results))
+     User.findOne({_id : new ObjectId(serviceData.userId)},function(req,results){
         if(results && results.cart) {
             results.cart.push(serviceData);
         }else{

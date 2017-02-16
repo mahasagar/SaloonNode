@@ -23,18 +23,11 @@ var _ = require('lodash');
 
 
 function bookAppointment(req,res){
-    console.log("req.body ",JSON.stringify(req.body));
     var  newAppointment = req.body;
-   
     newAppointment.appointmentId = generateOrderId();
     newAppointment.appointmentStatus = "NEW";
-   
-    console.log("req.body in ",JSON.stringify(newAppointment));
     var appointment = new Appointment(newAppointment);
-    console.log("appointment :",JSON.stringify(appointment));
     appointment.save(function(err,result){
-        console.log("err",JSON.stringify(err));
-        console.log("result",JSON.stringify(result));
          if(result){
              res.json({"result" : true});
          }else{
@@ -46,17 +39,6 @@ function bookAppointment(req,res){
 
 function getBookingList(req,res){
     var query = req.body;
-    console.log("req.body : "+JSON.stringify(req.body))
-    /*var query = {
-        businessId : req.body.businessId
-    };
-    var queryFinal = Order.find(query);
-    queryFinal.sort('-createdDate');
-    queryFinal.exec(function(err, results) {
-        if (err) throw err;
-        res.json(results);
-    });*/
-
     Appointment.find(query,{},{sort : {appointmentDate: -1}},function(req,results){
          res.json(results);
     })
@@ -75,9 +57,7 @@ function updateBooking(req,res){
     if(req.body.grandTotal){
         queryUpdate.grandTotal= req.body.grandTotal;
     }
-    console.log("req.body : "+JSON.stringify(queryUpdate))
-    Appointment.update(query,{'$set' : queryUpdate},function(req,results){
-        console.log("result : "+JSON.stringify(results))
+     Appointment.update(query,{'$set' : queryUpdate},function(req,results){
         res.json(results);
     })
 };
@@ -153,7 +133,6 @@ function customerOrdersReport(req, res){
     );
     // console.log(query);
     Appointment.aggregate( query, function(err, orderData){
-        console.log('orderData' +JSON.stringify(orderData));
         if( orderData ) {
             var countsData = {};
             var grandTotalData = {};
@@ -209,9 +188,7 @@ function customerOrdersReporttest(req, res){
         }
     );
     query.push({ $sort : { _id: 1 } });
-    console.log('query',query);
     Appointment.aggregate( query, function(err, orderData){
-        console.log('orderData==================' +JSON.stringify(orderData));
         if(orderData){
             var monthCountData = {
                 1 : 0,
@@ -253,12 +230,10 @@ function customerChurnOrderReport(req,res) {
         'appointmentStatus' : { $in : ['NEW','Finished']},
         'businessInfo.to.businessId':req.body.businessId
     };
-    //console.log('newQuery:',JSON.stringify(newQuery));
     var newOrdersQuery = Appointment.distinct('businessInfo.from.contactInfo.number',newQuery);
     newOrdersQuery.exec(function (err, newCustIds) {
         if(err) throw err;
         if (newCustIds) {
-            console.log('newCustIds' +JSON.stringify(newCustIds));
             res.json(newCustIds.length);
         }
     });
@@ -273,7 +248,6 @@ function uniqueappointments(req,res) {
     Appointment.distinct('businessInfo.from.contactInfo.number', newQuery, function(err, orderData){
        // console.log('orderData==================' +JSON.stringify(orderData));
         if(orderData){
-            console.log('newCustIds' +JSON.stringify(orderData.length));
             res.json(orderData.length);
         }else{
             res.json([]);
@@ -284,7 +258,6 @@ function uniqueappointments(req,res) {
 
 
 function totalAggregatedAmount(req, res){
-    console.log('api callling')
     var query = [];
     var matchQuery = {'businessInfo.to.businessId': req.body.businessId};
     query.push(
@@ -306,8 +279,7 @@ function totalAggregatedAmount(req, res){
    // console.log('query==========================',query);
     Appointment.aggregate( query, function(err, orderData){
         if(orderData){
-            console.log('orderData' +JSON.stringify(orderData));
-            res.json({totalAggregatedAmount : orderData[0]});
+             res.json({totalAggregatedAmount : orderData[0]});
         }else{
             res.json([]);
         }

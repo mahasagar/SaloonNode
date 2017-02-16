@@ -4,3 +4,4 @@
     sudo npm install -g n
     sudo n 0.10.25 / 4.2.2
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+db.appointments.createIndex({appointmentStatus : 1,"businessInfo.to.businessId" : 1 ,appointmentDate : 1})

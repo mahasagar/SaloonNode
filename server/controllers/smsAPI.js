@@ -17,8 +17,8 @@ var mail_details = {
 }
 var smtpTransport = nodemailer.createTransport(mail_details);
 
-function sendsmstosuctomers(req,res){
-    console.log('calling sendsmstosuctomers req.body', req.body);
+function sendSmsToCustomers(req,res){
+    console.log('calling sendSmsToCustomers req.body', req.body);
     var mailOptions = {
         to: req.body.email, // list of receivers
         subject: "Booking Confirmed TnY", // Subject line
@@ -128,4 +128,4 @@ function sendAppLink(appLinkMessage, cb) {
 }
 
 
-module.exports.sendsmstosuctomers = sendsmstosuctomers;
+module.exports.sendSmsToCustomers = sendSmsToCustomers;

@@ -27,6 +27,7 @@ module.exports = mongoose.model('Appointments',{
         from : {
             userId : {type : String},
             name : {type: String},
+            email : {type: String},
             gender :  {type: String},
             contactInfo : {
                 name : {type: String},

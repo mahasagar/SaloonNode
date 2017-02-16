@@ -63,7 +63,7 @@ app.post('/api/totalAggregatedAmount',appointmentAPI.totalAggregatedAmount);
 
 
 
-app.post('/sendsmstosuctomers',smsAPI.sendsmstosuctomers);
+app.post('/sendSmsToCustomers',smsAPI.sendSmsToCustomers);
 
 /*
 app.post('/sendsmstosuctomers', function (req, res) {
