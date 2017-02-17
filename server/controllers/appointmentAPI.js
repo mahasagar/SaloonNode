@@ -39,7 +39,13 @@ function bookAppointment(req,res){
 
 function getBookingList(req,res){
     var query = req.body;
-    Appointment.find(query,{},{sort : {appointmentDate: -1}},function(req,results){
+    var sortQuery = {appointmentDate: 1};
+    if(req.body.appointmentStatus == 'NEW'){
+        sortQuery = {appointmentDate: 1};
+    }else{
+        sortQuery = {appointmentDate: -1};
+    }
+    Appointment.find(query,{},{sort : sortQuery},function(req,results){
          res.json(results);
     })
 };
