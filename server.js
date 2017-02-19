@@ -10,20 +10,6 @@ var config = require('./config/dev');
 var Message = require('./server/models/Message');
 var request = require('request');
 
-var User = require('./server/models/User');
-var nodemailer = require("nodemailer");
-var baseURL = config.springedge.baseURL;
-
-var mail_details = {
-    service: config.mailer.service,
-    auth: {
-        "user": config.mailer.auth.user,
-        "pass": config.mailer.auth.pass
-    }
-}
-var smtpTransport = nodemailer.createTransport(mail_details);
-console.log("here @@@@@")
-
 
 app.use(bodyParser.json()); // parse application/json
 app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse application/vnd.api+json as json
@@ -79,13 +65,16 @@ app.post('/api/totalAggregatedAmount',appointmentAPI.totalAggregatedAmount);
 
 
 
-//app.post('/api/sendSmsToCustomers',smsAPI.sendSmsToCustomers);
+app.post('/api/sendSmsToCustomers',smsAPI.sendSmsToCustomers);
 
-app.post('/api/sendSmsToCustomers', function (req, res) {
+/*
+app.post('/sendsmstosuctomers', function (req, res) {
     //console.log('calling sendsmstosuctomers api ');
-
+    console.log('calling sendsmstosuctomers req.body', req.body);
     var mailOptions = {
-        to: req.body.email
+        to: req.body.email, // list of receivers
+        subject: "testing mail", // Subject line
+        text: "welcome"
     };
     if(req.body.appointmentStatus !='NEW'){
         mailOptions.subject = "Booking Finished TnY";
@@ -116,22 +105,21 @@ app.post('/api/sendSmsToCustomers', function (req, res) {
             console.log("timestamp : ", response);
 
         }
-        var body = req.body;
-        var number = body.recipientNumber;
+    });
+    //var sentNums = {};
+    var body = req.body;
+    var number = body.recipientNumber;
 
-        var appLinkMessage = {
-            recipientName: body.recipientName,
-            recipientNumber: body.recipientNumber,
-            message: body.message,
-            email: req.body.email,
-            action: 'Link sent'
-        };
-        console.log("5");
-        sendAppLink(appLinkMessage, function (err) {
-            //console.log('sent to ' + number );
-            console.log("11");
-
-        });
+    var appLinkMessage = {
+        recipientName: body.recipientName,
+        recipientNumber: body.recipientNumber,
+        message: body.message,
+        email: req.body.email,
+        action: 'Link sent'
+    };
+    console.log('sending app link to : ' + JSON.stringify(number));
+    sendAppLink(appLinkMessage, function (err) {
+        //console.log('sent to ' + number );
     });
 });
 
@@ -139,7 +127,7 @@ app.post('/api/sendSmsToCustomers', function (req, res) {
 function getSMSQuery() {
     var queryString = {
         apikey: config.springedge.key,
-        sender: 'TNYGSF',
+        sender: 'SEDEMO',
         to: 'messageNumbers',
         message: 'messageText',
         format: 'json',
@@ -156,23 +144,21 @@ function getSMSQuery() {
 }
 
 function sendPromotionalMessage(number, message, callback) {
-
-    console.log("7");
     //console.log('sendPromotionalMessage number',number);
     //console.log('sendPromotionalMessage message',message);
     var queryParams = getSMSQuery();
     message = encodeURIComponent(message);
     queryParams = queryParams.replace('messageText', message);
     queryParams = queryParams.replace('messageNumbers', number);
-    console.log('sendPromotionalMessage queryParams',queryParams);
+    //console.log('sendPromotionalMessage queryParams',queryParams);
 
     sendRequest(baseURL + queryParams, number, callback);
 }
 
 
 function sendRequest(uri, number, callback) {
-
-    console.log("8");
+    console.log('uri', uri);
+    console.log('number', number);
     request(
         {
             method: 'GET',
@@ -192,25 +178,19 @@ function sendRequest(uri, number, callback) {
     );
 }
 
-
 function sendAppLink(appLinkMessage, cb) {
-    console.log("6");
+    //console.log('appLinkMessage---------================',appLinkMessage);
     sendPromotionalMessage(appLinkMessage.recipientNumber, appLinkMessage.message, function (output) {// smsCallBack
         //console.log('sendAppLink output--------------------',output);
-
-        console.log("9");
         Message.create(appLinkMessage, function (err, createdMsg) {
-
-            console.log("10");
             if (!err) {
                 console.log('App link message created : ' + createdMsg);
             }
-            cb(null, createdMsg);
         });
-
+        cb(null, output);
     });
 
-}
+}*/
 
 module.exports = app;
 
