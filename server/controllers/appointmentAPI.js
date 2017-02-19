@@ -41,9 +41,9 @@ function getBookingList(req,res){
     var query = req.body;
     var sortQuery = {appointmentDate: 1};
     if(req.body.appointmentStatus == 'NEW'){
-        sortQuery = {appointmentDate: 1};
+        sortQuery = {appointmentDate: 1,appointmentTime : 1};
     }else{
-        sortQuery = {appointmentDate: -1};
+        sortQuery = {appointmentDate: -1,appointmentTime : -1};
     }
     Appointment.find(query,{},{sort : sortQuery},function(req,results){
          res.json(results);
