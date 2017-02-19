@@ -53,19 +53,11 @@ function getBookingList(req,res){
 
 
 function updateBooking(req,res){
-    var queryUpdate = {};
-    var query = {};
-    if(req.body.appointmentId){
-        query.appointmentId =  req.body.appointmentId;
-    }
-    if(req.body.appointmentStatus){
-        queryUpdate.appointmentStatus= req.body.appointmentStatus;
-    }
-    if(req.body.grandTotal){
-        queryUpdate.grandTotal= req.body.grandTotal;
-    }
-     Appointment.update(query,{'$set' : queryUpdate},function(req,results){
-        res.json(results);
+    var queryUpdate = req.body.updateParams;
+    var query = req.body.queryParams;
+
+     Appointment.update(query,{'$set' : queryUpdate},function(err,results){
+         res.json(results);
     })
 };
 
