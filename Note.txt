@@ -5,3 +5,7 @@
     sudo n 0.10.25 / 4.2.2
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 db.appointments.createIndex({appointmentStatus : 1,"businessInfo.to.businessId" : 1 ,appointmentDate : 1})
+db.appointments.createIndex({appointmentDate : 1})
+db.appointment.createIndex({businessInfo.from.contactInfo.number : 1});
+
+db.saloons.createIndex({userId : 1});

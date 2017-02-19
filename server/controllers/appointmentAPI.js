@@ -3,6 +3,7 @@
  */
 var Appointment = require('../models/Appointment');
 var _ = require('lodash');
+var moment = require('moment');
 
  function generateOrderId() {
       var length = 17;
@@ -222,26 +223,43 @@ function customerOrdersReporttest(req, res){
 }
 
 function customerChurnOrderReport(req,res) {
-//console.log('req.body============',req.body);
-    var toDate = new Date();
-    toDate.setDate(toDate.getDate() + -parseInt(req.body.gracePeriodDays));
-    //console.log('toDate========',toDate)
+   var date3MonthBefore = new Date();
+    date3MonthBefore.setDate(date3MonthBefore.getDate() + -parseInt(req.body.gracePeriodDays));
+    date3MonthBefore= moment(date3MonthBefore).format('YYYY-MM-DD')+ 'T00:00:00Z';
+    var today = new Date();
+    today= moment(today).format('YYYY-MM-DD')+ 'T00:00:00Z';
 
     var newQuery = {
         'appointmentDate' :
         {
-            $gte: toDate,
-            $lte: new Date()
+            $gte: date3MonthBefore,
+            $lte: today
         },
         'appointmentStatus' : { $in : ['NEW','Finished']},
         'businessInfo.to.businessId':req.body.businessId
     };
     var newOrdersQuery = Appointment.distinct('businessInfo.from.contactInfo.number',newQuery);
-    newOrdersQuery.exec(function (err, newCustIds) {
-        if(err) throw err;
-        if (newCustIds) {
-            res.json(newCustIds.length);
+    newOrdersQuery.exec(function (err, newCustIds){
+        var orderChrunQuery = {
+            'appointmentDate' :
+            {
+                $lte: date3MonthBefore
+            },
+            'businessInfo.to.businessId':req.body.businessId,
+            'businessInfo.from.contactInfo.number' : { $nin : newCustIds}
         }
+
+        var newOrderChurnData = Appointment.distinct('businessInfo.from.contactInfo.number',orderChrunQuery).count();
+        newOrderChurnData.exec(function (err, countData){
+            if(err) throw err;
+            if (countData) {
+                res.json(countData);
+            }else{
+                res.json(0);
+            }
+        });
+
+
     });
 }
 
