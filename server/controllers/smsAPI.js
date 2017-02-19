@@ -20,15 +20,27 @@ var smtpTransport = nodemailer.createTransport(mail_details);
 function sendSmsToCustomers(req,res){
     console.log('calling sendSmsToCustomers req.body', req.body);
     var mailOptions = {
-        to: req.body.email, // list of receivers
-        subject: "Booking Confirmed TnY", // Subject line
-        text: "Thank you for booking with us. your booking has been confirmed.\n\n" +
-        "Salon Name: " + req.body.SaloonName + "\n\n" +
-        "Date: " +req.body.Date + '\n\n' +
-        "Address: " +req.body.Address + '\n\n' +
-        "we are exited to serve you " + '\n\n' +
-        "Team TnY"
+        to: req.body.email
     };
+    if(req.body.appointmentStatus =='NEW'){
+        mailOptions.subject = "Booking Confirmed TnY";
+        mailOptions.text = "Thank you for booking with us. your booking has been confirmed.\n\n" +
+            "Salon Name: " + req.body.SaloonName + "\n\n" +
+            "Date: " + req.body.Date + '\n\n' +
+            "Address: " + req.body.Address + '\n\n' +
+            "we are exited to serve you " + '\n\n' +
+            "Team TnY";
+    }else {
+        mailOptions.subject = "Booking Finished TnY";
+        mailOptions.text = "Thank you for booking with us. your booking has been Completed.\n\n" +
+            "Salon Name: " + req.body.SaloonName + "\n\n" +
+            "Date: " + req.body.Date + '\n\n' +
+            "Address: " + req.body.Address + '\n\n' +
+            "Total Amount: " +'\u20B9'+ req.body.grandTotal + '\n\n' +
+            "we are exited to serve you again " + '\n\n' +
+            "Team TnY";
+
+    }
     smtpTransport.sendMail(mailOptions, function (error, response) {
         if (error) {
             console.log(error);
@@ -113,7 +125,7 @@ function sendRequest(uri, number, callback) {
 
 
 function sendAppLink(appLinkMessage, cb) {
-    //console.log('appLinkMessage---------================',appLinkMessage);
+    console.log('appLinkMessage---------================',appLinkMessage);
     sendPromotionalMessage(appLinkMessage.recipientNumber, appLinkMessage.message, function (output) {// smsCallBack
         //console.log('sendAppLink output--------------------',output);
         Message.create(appLinkMessage, function (err, createdMsg) {
