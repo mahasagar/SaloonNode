@@ -1,6 +1,7 @@
 /**
  * Created by mahasagar on 10/1/17.
  */
+/*
 var User = require('../models/User');
 var request = require('request');
 var nodemailer = require("nodemailer");
@@ -16,21 +17,14 @@ var mail_details = {
     }
 }
 var smtpTransport = nodemailer.createTransport(mail_details);
-
+console.log("here @@@@@")
 function sendSmsToCustomers(req,res){
-    console.log('calling sendSmsToCustomers req.body', req.body);
+
+
     var mailOptions = {
         to: req.body.email
     };
-    if(req.body.appointmentStatus =='NEW'){
-        mailOptions.subject = "Booking Confirmed TnY";
-        mailOptions.text = "Thank you for booking with us. your booking has been confirmed.\n\n" +
-            "Salon Name: " + req.body.SaloonName + "\n\n" +
-            "Date: " + req.body.Date + '\n\n' +
-            "Address: " + req.body.Address + '\n\n' +
-            "we are exited to serve you " + '\n\n' +
-            "Team TnY";
-    }else {
+    if(req.body.appointmentStatus !='NEW'){
         mailOptions.subject = "Booking Finished TnY";
         mailOptions.text = "Thank you for booking with us. your booking has been Completed.\n\n" +
             "Salon Name: " + req.body.SaloonName + "\n\n" +
@@ -39,6 +33,15 @@ function sendSmsToCustomers(req,res){
             "Total Amount: " +'\u20B9'+ req.body.grandTotal + '\n\n' +
             "we are exited to serve you again " + '\n\n' +
             "Team TnY";
+    }else {
+        mailOptions.subject = "Booking Confirmed TnY";
+        mailOptions.text = "Thank you for booking with us. your booking has been confirmed.\n\n" +
+            "Salon Name: " + req.body.SaloonName + "\n\n" +
+            "Date: " + req.body.Date + '\n\n' +
+            "Address: " + req.body.Address + '\n\n' +
+            "we are exited to serve you " + '\n\n' +
+            "Team TnY";
+
 
     }
     smtpTransport.sendMail(mailOptions, function (error, response) {
@@ -50,22 +53,24 @@ function sendSmsToCustomers(req,res){
             console.log("timestamp : ", response);
 
         }
-    });
-    //var sentNums = {};
-    var body = req.body;
-    var number = body.recipientNumber;
+        var body = req.body;
+        var number = body.recipientNumber;
 
-    var appLinkMessage = {
-        recipientName: body.recipientName,
-        recipientNumber: body.recipientNumber,
-        message: body.message,
-        email: req.body.email,
-        action: 'Link sent'
-    };
-    console.log('sending app link to : ' + JSON.stringify(number));
-    sendAppLink(appLinkMessage, function (err) {
-        //console.log('sent to ' + number );
+        var appLinkMessage = {
+            recipientName: body.recipientName,
+            recipientNumber: body.recipientNumber,
+            message: body.message,
+            email: req.body.email,
+            action: 'Link sent'
+        };
+        console.log("5");
+        sendAppLink(appLinkMessage, function (err) {
+            //console.log('sent to ' + number );
+            console.log("11");
+
+        });
     });
+    return;
 };
 
 
@@ -89,6 +94,8 @@ function getSMSQuery() {
 }
 
 function sendPromotionalMessage(number, message, callback) {
+
+    console.log("7");
     //console.log('sendPromotionalMessage number',number);
     //console.log('sendPromotionalMessage message',message);
     var queryParams = getSMSQuery();
@@ -102,8 +109,8 @@ function sendPromotionalMessage(number, message, callback) {
 
 
 function sendRequest(uri, number, callback) {
-    console.log('uri', uri);
-    console.log('number', number);
+
+    console.log("8");
     request(
         {
             method: 'GET',
@@ -125,10 +132,14 @@ function sendRequest(uri, number, callback) {
 
 
 function sendAppLink(appLinkMessage, cb) {
-    console.log('appLinkMessage---------================',appLinkMessage);
+    console.log("6");
     sendPromotionalMessage(appLinkMessage.recipientNumber, appLinkMessage.message, function (output) {// smsCallBack
         //console.log('sendAppLink output--------------------',output);
+
+        console.log("9");
         Message.create(appLinkMessage, function (err, createdMsg) {
+
+            console.log("10");
             if (!err) {
                 console.log('App link message created : ' + createdMsg);
             }
@@ -139,5 +150,6 @@ function sendAppLink(appLinkMessage, cb) {
 
 }
 
+*/
 
-module.exports.sendSmsToCustomers = sendSmsToCustomers;
+//module.exports.sendSmsToCustomers = sendSmsToCustomers;
