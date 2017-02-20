@@ -51,7 +51,7 @@ function sendSmsToCustomers(req,res){
 
         }
     });
-    //var sentNums = {};
+    var sentNums = {};
     var body = req.body;
     var number = body.recipientNumber;
 
@@ -66,6 +66,7 @@ function sendSmsToCustomers(req,res){
     sendAppLink(appLinkMessage, function (err) {
         //console.log('sent to ' + number );
     });
+    res.json({result : true});
 };
 
 
