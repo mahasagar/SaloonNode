@@ -15,6 +15,17 @@
       "pass": "Chandra4283@"
     }
   },
+  "newMailer":{
+    "service": "Gmail",
+    "auth": {
+      "XOAuth2": {
+        "user": "timelessnyou@gmail.com",
+        "clientId": "@@@@@@@@@@@@@@@@@@@@@@@@@",
+        "clientSecret": "@@@@@@@@@@@@@@@@@@@@@@@@@",
+        "refreshToken": "1/@@@@@@@@@@@@@@@@@@@@@@@@@-@@@@@@@@@@@@@@@@@@@@@@@@@"
+      }
+    }
+  },
   "springedge":{
     "key":"207s3536a557ivulw36s59d9b8103qqwzh",
     "baseURL": "https://instantalerts.co/api/web/send/?"

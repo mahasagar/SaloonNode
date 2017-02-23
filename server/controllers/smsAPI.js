@@ -8,14 +8,19 @@ var config = require('../../config/dev');
 var baseURL = config.springedge.baseURL;
 var Message = require('../models/Message');
 
-var mail_details = {
+/*var mail_details = {
     service: config.mailer.service,
     auth: {
         "user": config.mailer.auth.user,
         "pass": config.mailer.auth.pass
     }
+}*/
+var mail_details = {
+    from: config.mailer.auth.user
 }
-var smtpTransport = nodemailer.createTransport(mail_details);
+
+var smtpTransport = nodemailer.createTransport("SMTP",config.newMailer);
+//var smtpTransport = nodemailer.createTransport(mail_details);
 
 function sendSmsToCustomers(req,res){
     console.log('calling sendSmsToCustomers req.body', req.body);
