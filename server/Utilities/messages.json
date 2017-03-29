@@ -1,5 +1,6 @@
 {
     "usernameExists" : "Username already Exists",
     "userNotFound" : "Username Not Found",
-    "userOrPasswordWrong" : "Username or Password Wrong"
+    "userOrPasswordWrong" : "Username or Password Wrong",
+    "msgAppointmentCount" : "Cannot book appointment, Kindly book at different time."
 }

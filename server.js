@@ -1,4 +1,5 @@
 var express = require("express");
+var multer  =   require('multer');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
@@ -9,6 +10,17 @@ var smsAPI = require("./server/controllers/smsAPI.js");
 var config = require('./config/dev');
 var Message = require('./server/models/Message');
 var request = require('request');
+
+var storage =   multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './uploads');
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.fieldname + '-' + Date.now());
+    }
+});
+var upload = multer({ storage : storage}).single('userPhoto');
+
 
 
 app.use(bodyParser.json()); // parse application/json
@@ -66,7 +78,16 @@ app.post('/api/totalAggregatedAmount',appointmentAPI.totalAggregatedAmount);
 
 
 app.post('/api/sendSmsToCustomers',smsAPI.sendSmsToCustomers);
-
+app.post('/api/photo',function(req,res){
+    upload(req,res,function(err,result) {
+        if(err) {
+            console.log(err)
+            return res.end("Error uploading file.");
+        }
+        console.log("req : "+result);
+        res.end(result);
+    });
+});
 /*
 app.post('/sendsmstosuctomers', function (req, res) {
     //console.log('calling sendsmstosuctomers api ');

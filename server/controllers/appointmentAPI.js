@@ -2,6 +2,7 @@
  * Created by mahasagar on 20/12/16.
  */
 var Appointment = require('../models/Appointment');
+var Messages = require('../Utilities/messages');
 var _ = require('lodash');
 var moment = require('moment');
 
@@ -25,16 +26,30 @@ var moment = require('moment');
 
 function bookAppointment(req,res){
     var  newAppointment = req.body;
+    var noOfAppointment = req.body.noOfAppointment;
     newAppointment.appointmentId = generateOrderId();
     newAppointment.appointmentStatus = "NEW";
     var appointment = new Appointment(newAppointment);
-    appointment.save(function(err,result){
-         if(result){
-             res.json({"result" : true});
-         }else{
-            res.json({"result" : false});
-         }
-     });
+    var query = {
+        appointmentDate : req.body.appointmentDate,
+        appointmentTime : req.body.appointmentTime,
+        appointmentStatus : "NEW"
+    };
+    Appointment.count(query,function(req,results){
+        if(results >= noOfAppointment){
+            res.json({"result" : false, "message" : Messages.msgAppointmentCount });
+        }else{
+            appointment.save(function(err,result){
+                if(result){
+                    res.json({"result" : true});
+                }else{
+                    res.json({"result" : false});
+                }
+            });
+        }
+    })
+
+
 
 }
 
