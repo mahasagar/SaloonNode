@@ -31,6 +31,7 @@ function bookAppointment(req,res){
     newAppointment.appointmentStatus = "NEW";
     var appointment = new Appointment(newAppointment);
     var query = {
+        'businessInfo.to.businessId' : req.body.businessInfo.to.businessId,
         appointmentDate : req.body.appointmentDate,
         appointmentTime : req.body.appointmentTime,
         appointmentStatus : "NEW"
