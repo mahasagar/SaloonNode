@@ -15,9 +15,11 @@ function addSaloonBusiness(req,res){
 }
 
 function getSaloonBusiness(req,res){
-    var query = {
-        userId : req.body.userId
+    var query = {};
+    if(req.body.userId){
+        query.userId = req.body.userId;
     };
+    console.log("query : "+JSON.stringify(query));
     Saloon.find(query,function(req,results){
         res.json(results);
     })
