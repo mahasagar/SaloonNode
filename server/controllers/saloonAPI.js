@@ -19,6 +19,13 @@ function getSaloonBusiness(req,res){
     if(req.body.userId){
         query.userId = req.body.userId;
     };
+    if(req.body.saloonType && req.body.saloonType.length > 0){
+        query.saloonType = {$in : req.body.saloonType};
+    };
+    if(req.body.saloonPriceType && req.body.saloonPriceType.length > 0){
+        query.saloonPriceType = {$in : req.body.saloonPriceType};
+    };
+
     console.log("query : "+JSON.stringify(query));
     Saloon.find(query,function(req,results){
         res.json(results);

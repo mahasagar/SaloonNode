@@ -77,6 +77,7 @@ app.post('/api/totalAggregatedAmount',appointmentAPI.totalAggregatedAmount);
 
 
 
+app.post('/api/getMessages',smsAPI.getMessages);
 app.post('/api/sendSmsToCustomers',smsAPI.sendSmsToCustomers);
 app.post('/api/photo',function(req,res){
     upload(req,res,function(err,result) {

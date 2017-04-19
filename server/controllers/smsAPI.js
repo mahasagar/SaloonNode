@@ -22,6 +22,17 @@ var mail_details = {
 var smtpTransport = nodemailer.createTransport("SMTP",config.newMailer);
 //var smtpTransport = nodemailer.createTransport(mail_details);
 
+function getMessages(req, res) {
+    console.log('req.body -------================',req.body);
+    Message.find(req.body, function (err, result) {
+        if (!err) {
+            res.json(result);
+        }else{
+            res.json({result : null});
+        }
+    });
+}
+
 function sendSmsToCustomers(req,res){
     console.log('calling sendSmsToCustomers req.body', req.body);
     var mailOptions = {
@@ -146,4 +157,6 @@ function sendAppLink(appLinkMessage, cb) {
 }
 
 
+
 module.exports.sendSmsToCustomers = sendSmsToCustomers;
+module.exports.getMessages = getMessages;

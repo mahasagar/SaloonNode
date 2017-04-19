@@ -42,7 +42,7 @@ module.exports = mongoose.model('Saloon',{
     reviews : [{
         reviewerName : {type: String},
         comment : {type: String},
-        date : {type: Date},
+        date : {type: Date, default : Date.now},
         rating : {type: Number}
     }],
     updatedAt : {type: Date},
