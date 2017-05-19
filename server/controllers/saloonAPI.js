@@ -25,12 +25,17 @@ function getSaloonBusiness(req,res){
     if(req.body.saloonPriceType && req.body.saloonPriceType.length > 0){
         query.saloonPriceType = {$in : req.body.saloonPriceType};
     };
+    if(req.body.queryServices){
+        query.$and = [{'services.subSegmentName' : {$exists : true}} ,{'services.subSegmentName' : new RegExp(req.body.queryServices, 'i')} ]
+    }
 
     console.log("query : "+JSON.stringify(query));
     Saloon.find(query,function(req,results){
         res.json(results);
     })
 };
+
+
 
 
 function getAllSaloons(req,res){
@@ -50,6 +55,7 @@ function getBusinessById(req,res){
     var query = {
         _id : req.body._id
     };
+
     Saloon.find(query,function(req,results){
         res.json({result : results[0]} );
     })
